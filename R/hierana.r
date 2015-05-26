@@ -92,14 +92,14 @@ function (data)
 }
 
 "read.fstat.data" <-
-function (fname, na.s = c("0","00","000","0000","00000","000000","NA"))
+function (fname, na.s = c("0","00","000","0000","00000","000000","NA"), skip=0, nlines=0)
 {
 x<-scan(fname,n=4)
 nloc<-x[2]
 lnames<-scan(fname,what=character(),skip=1,nlines=nloc)
 lnames<-c("Pop",lnames)
-dat<-scan(fname,skip=nloc+1,na.strings=na.s)
-dat<-data.frame(matrix(dat,ncol=nloc+1,byrow=TRUE))
+dat<-scan(fname,skip=nloc+1+skip,nlines=nlines,na.strings=na.s)
+dat<-data.frame(matrix(dat,ncol=nloc+1+skip-nlines,byrow=TRUE))
 names(dat)<-lnames
 return(dat)
 }
